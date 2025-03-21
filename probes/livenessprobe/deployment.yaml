@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-liveness-sim
+  namespace: liveness
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-liveness-sim
+  template:
+    metadata:
+      labels:
+        app: nginx-liveness-sim
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:alpine
+        ports:
+        - containerPort: 80
+        env:
+        - name: FAILURE_DELAY
+          value: "30"  # Set the failure delay to 30 seconds
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5  # Wait 5 seconds before starting the probe
+          periodSeconds: 5        # Check every 5 seconds
+          failureThreshold: 1     # Mark as failed after 1 failure
+        command: ["sh", "-c", "nginx -g 'daemon on;' && echo 'Waiting for $FAILURE_DELAY seconds before simulating liveness probe failure...' && sleep $FAILURE_DELAY && echo 'Simulating liveness probe failure by stopping NGINX...' && nginx -s stop && tail -f /dev/null"]
