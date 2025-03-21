@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp-deployment
+  labels:
+    app: webapp
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: webapp
+  template:
+    metadata:
+      labels:
+        app: webapp
+    spec:
+      containers:
+      - name: webapp-container
+        image: hemanthreddy44/webapp:latest  # Use your custom Flask app image
+        ports:
+        - containerPort: 80
+        env:
+        - name: READINESS_DELAY
+          valueFrom:
+            configMapKeyRef:
+              name: webapp-config  # Name of the ConfigMap
+              key: READINESS_DELAY  # Key in the ConfigMap
+        - name: BACKGROUND_COLOR
+          valueFrom:
+            configMapKeyRef:
+              name: webapp-config  # Name of the ConfigMap
+              key: BACKGROUND_COLOR  # Key in the ConfigMap
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          successThreshold: 1
+          failureThreshold: 3
