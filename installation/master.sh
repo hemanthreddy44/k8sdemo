@@ -72,4 +72,6 @@ kubectl taint nodes --all node-role.kubernetes.io/control-plane-
 
 echo "-------------Creating file with join command-------------"
 echo `kubeadm token create --print-join-command` > ./join-command.cat
+echo "-------------setting up alias-------------"
+alias k=kubectl
 
