@@ -3,7 +3,7 @@ set -e
 
 # Set hostname
 echo "-------------Setting hostname-------------"
-hostnamectl set-hostname worker
+hostnamectl set-hostname worker1
 # Disable swap
 echo "-------------Disabling swap-------------"
 swapoff -a
