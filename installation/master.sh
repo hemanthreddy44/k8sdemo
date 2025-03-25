@@ -72,5 +72,5 @@ helm install cilium cilium/cilium --version 1.17.2 --namespace kube-system
 echo "-------------Creating file with join command-------------"
 echo `kubeadm token create --print-join-command` > ./join-command.cat
 echo "-------------setting up alias-------------"
-alias k=kubectl
+echo "alias k=kubectl" >> ~/.bashrc
 
