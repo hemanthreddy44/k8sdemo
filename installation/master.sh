@@ -67,8 +67,7 @@ echo "-------------Deploying Cilium-------------"
 helm repo add cilium https://helm.cilium.io/
 helm install cilium cilium/cilium --version 1.17.2 --namespace kube-system
 
-echo "------------Remove taints and tolerations----"
-kubectl taint nodes --all node-role.kubernetes.io/control-plane-
+
 
 echo "-------------Creating file with join command-------------"
 echo `kubeadm token create --print-join-command` > ./join-command.cat
