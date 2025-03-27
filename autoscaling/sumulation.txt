@@ -1,0 +1,1 @@
+kubectl run busybox --image=busybox --restart=Never -- /bin/sh -c "while true; do wget -q -O- http://nginx-service.default.svc.cluster.local; done"
